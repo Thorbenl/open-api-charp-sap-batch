@@ -1,0 +1,7 @@
+# https://openapi-generator.tech/docs/generators/csharp-netcore/
+targetFramework: net6.0
+library: httpclient
+nullableReferenceTypes: true
+disallowAdditionalPropertiesIfNotPresent: false
+modelPropertyNaming: original
+netCoreProjectFile: true

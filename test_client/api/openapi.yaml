@@ -1,0 +1,97 @@
+openapi: 3.0.2
+info:
+  description: "This service is located at [https://localhost/service-root/](https://localhost/service-root/)"
+  title: Service for namespace yadayada
+  version: ""
+servers:
+- url: https://localhost/service-root
+paths:
+  /$batch:
+    post:
+      description: |-
+        Group multiple requests into a single request payload, see [Batch Processing (OData Version 2.0)](https://www.odata.org/documentation/odata-version-2-0/batch-processing/).
+
+        *Please note that "Try it out" is not supported for this request.*
+      requestBody:
+        content:
+          multipart/mixed;boundary=request-separator:
+            example: |-
+              --request-separator
+              Content-Type: application/http
+              Content-Transfer-Encoding: binary
+
+              GET ProdOrderDetailSet HTTP/1.1
+              Accept: application/json
+
+
+              --request-separator--
+            schema:
+              type: string
+        description: Batch request
+        required: true
+      responses:
+        "202":
+          content:
+            multipart/mixed:
+              example: |-
+                --response-separator
+                Content-Type: application/http
+
+                HTTP/1.1 200 OK
+                Content-Type: application/json
+
+                {...}
+                --response-separator--
+              schema:
+                type: string
+          description: Batch response
+        "4XX":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+          description: Error
+      summary: Send a group of requests
+      tags:
+      - Batch Requests
+components:
+  parameters: {}
+  responses:
+    error:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Error
+  schemas:
+    error:
+      properties:
+        error:
+          $ref: '#/components/schemas/error_error'
+      required:
+      - error
+      type: object
+    error_error_message:
+      properties:
+        lang:
+          type: string
+        value:
+          type: string
+      required:
+      - lang
+      - value
+      type: object
+    error_error:
+      properties:
+        code:
+          type: string
+        message:
+          $ref: '#/components/schemas/error_error_message'
+        innererror:
+          description: The structure of this object is service-specific
+          type: object
+      required:
+      - code
+      - message
+      type: object
+

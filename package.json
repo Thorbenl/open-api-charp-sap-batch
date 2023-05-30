@@ -1,0 +1,15 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "scripts": {
+    "openapi-generator-cli": "openapi-generator-cli",
+    "generate:clients": "run-s generate:client:*",
+    "generate-client": "openapi-generator-cli -- generate -g csharp-netcore -c openapi-generator-client.config.yml -i openapi-spec-client.json -o test_client --skip-validate-spec "
+  },
+  "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.6.0"
+  },
+  "dependencies": {
+    "odata-openapi": "^0.23.0"
+  }
+}
